@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class ImmutableCollectionsTest {
@@ -51,7 +52,27 @@ public class ImmutableCollectionsTest {
                 IllegalArgumentException.class,
                 () -> Set.of("one", "one")
         );
+    }
 
+    @Test
+    void immutableSetElementsCannotBeAdded(){
+        Set<String> mySet = Set.of("one");
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> mySet.add("two")
+        );
+    }
+    
+    @Test
+    void immutableMapElementsCannotBeAdded() {
+        Map<String, Integer> myMap = Map.ofEntries(
+                Map.entry("one", 1),
+                Map.entry("two", 2)
+        );
+        assertThrows(
+                UnsupportedOperationException.class,
+                () -> myMap.put("three", 3)
+        );
     }
 }
 
