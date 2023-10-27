@@ -4,9 +4,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.ToIntFunction;
+import java.util.stream.Collectors;
 
 public class ImmutableCollectionsTest {
 
@@ -73,6 +76,19 @@ public class ImmutableCollectionsTest {
                 UnsupportedOperationException.class,
                 () -> myMap.put("three", 3)
         );
+    }
+
+    @Test
+    void immutableCollectionUsingStreams(){
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+        ToIntFunction<Integer> duplicate = number -> number * 2;
+        int total = numbers.stream()
+                .mapToInt(duplicate)
+                .sum();
+        assertEquals(110, total);
+        // the original collection shouldn't be updated
+        assertEquals(1, numbers.get(0));
+        assertEquals(6, numbers.get(5));
     }
 }
 
